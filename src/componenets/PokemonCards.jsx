@@ -8,6 +8,7 @@ export const PokemonCards = ({ pokemon }) => {
           alt={pokemon.name}
         />
       </figure>
+      <h1 className="pokemon-name">{pokemon.name}</h1>
       <div className="pokemon-info pokemon-highlight">
         <p>{pokemon.types.map((curType) => curType.type.name).join(", ")}</p>
       </div>
