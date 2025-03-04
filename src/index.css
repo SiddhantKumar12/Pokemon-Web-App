@@ -219,3 +219,23 @@ pokemon-info {
     cursor: pointer;
   }
 }
+
+.pokemon-filters {
+  display: flex;
+  justify-content: center;
+  /* Centers items horizontally */
+  align-items: center;
+  /* Centers items vertically */
+  gap: 10px;
+  /* Adds space between input and dropdown */
+  margin: 20px auto;
+  /* Adds margin for spacing */
+  width: fit-content;
+  /* Ensures it wraps around content */
+}
+
+.pokemon-filters input,
+.pokemon-filters select {
+  padding: 8px;
+  font-size: 16px;
+}
