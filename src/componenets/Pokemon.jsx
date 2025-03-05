@@ -9,6 +9,7 @@ export const Pokemon = () => {
   const [search, setSearch] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [pokemonTypes, setPokemonTypes] = useState([]);
+  const [sortOrder, setSortOrder] = useState("default");
 
   const pokeApi = "https://pokeapi.co/api/v2/pokemon?limit=251";
 
@@ -24,7 +25,7 @@ export const Pokemon = () => {
       });
 
       const detailedResults = await Promise.all(detailPokemonData);
-      
+
       // Extract unique types
       const allTypes = new Set();
       detailedResults.forEach((pokemon) => {
@@ -47,11 +48,24 @@ export const Pokemon = () => {
 
   // Filter Pokémon based on search and type
   const filteredPokemon = pokemonData.filter((pokemon) => {
-    const matchesSearch = pokemon.name.toLowerCase().includes(search.toLowerCase());
-    const matchesType = selectedType === "All" || selectedType === "" || 
+    const matchesSearch = pokemon.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesType =
+      selectedType === "All" ||
+      selectedType === "" ||
       pokemon.types.some((type) => type.type.name === selectedType);
-    
+
     return matchesSearch && matchesType;
+  });
+
+  // Sorted Pokémon based on search and type
+  const sortedPokemon = [...filteredPokemon].sort((a, b) => {
+    if (sortOrder === "name-asc") return a.name.localeCompare(b.name);
+    if (sortOrder === "name-desc") return b.name.localeCompare(a.name);
+    if (sortOrder === "id-asc") return a.id - b.id;
+    if (sortOrder === "id-desc") return b.id - a.id;
+    return 0;
   });
 
   if (isLoading) {
@@ -72,16 +86,30 @@ export const Pokemon = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
             {pokemonTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
             ))}
           </select>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="default">Sort By</option>
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="id-asc">ID (Low to High)</option>
+            <option value="id-desc">ID (High to Low)</option>
+          </select>
         </div>
+
         <ul className="cards">
-          {filteredPokemon.map((pokemon) => (
+          {sortedPokemon.map((pokemon) => (
             <PokemonCards key={pokemon.id} pokemon={pokemon} />
           ))}
         </ul>
