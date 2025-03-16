@@ -239,3 +239,34 @@ pokemon-info {
   padding: 8px;
   font-size: 16px;
 }
+.pagination {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 18px;
+  margin: 0 10px;
+}
